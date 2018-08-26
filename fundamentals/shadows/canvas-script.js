@@ -9,43 +9,56 @@ window.onload = function() {
 
 	/*
 	
-	Line Joins -> context.lineJoin = "";
-	- miter -> default
-	- bevel
-	- round
+	Shadow Attributes on canvas 
+	- shadowColor
+	- shadowOffsetX
+	- shadowOffsetY
+	- shadowBlur
 	
 	 */
 
 	context.beginPath();
+	context.strokeStyle = "red";
+	context.shadowColor = "blue";
+	context.shadowOffsetX = 10;
+	context.shadowOffsetY = 10;
+	context.shadowBlur = 5;
 	context.lineWidth = 20;
-	context.lineJoin = 'bevel';
-	context.moveTo(30,30);
-	context.lineTo(130,30);
-	context.lineTo(130,130);
-	context.lineTo(30,130);
-	context.lineTo(30,230);
+	context.moveTo(100, 60);
+	context.lineTo(200,60);
 	context.stroke();
 
 	context.beginPath();
-	context.strokeStyle = 'green';
+	context.strokeStyle = "red";
+	context.shadowColor = "green";
+	context.shadowOffsetX = -10;
+	context.shadowOffsetY = 10;
+	context.shadowBlur = 5;
 	context.lineWidth = 20;
-	context.lineJoin = 'round';
-	context.moveTo(60,60);
-	context.lineTo(160,60);
-	context.lineTo(160,160);
-	context.lineTo(60,160);
-	context.lineTo(60,260);
+	context.moveTo(350, 60);
+	context.lineTo(450,60);
 	context.stroke();
 
 	context.beginPath();
-	context.strokeStyle = 'blue';
+	context.strokeStyle = "red";
+	context.shadowColor = "purple";
+	context.shadowOffsetX = 10;
+	context.shadowOffsetY = -10;
+	context.shadowBlur = 5;
 	context.lineWidth = 20;
-	context.lineJoin = 'miter';
-	context.moveTo(90,90);
-	context.lineTo(190,90);
-	context.lineTo(190,190);
-	context.lineTo(90,190);
-	context.lineTo(90,290);
+	context.moveTo(100, 200);
+	context.lineTo(200, 200);
+	context.stroke();
+
+	context.beginPath();
+	context.strokeStyle = "red";
+	context.shadowColor = "brown";
+	context.shadowOffsetX = -10;
+	context.shadowOffsetY = -10;
+	context.shadowBlur = 5;
+	context.lineWidth = 20;
+	context.moveTo(350, 200);
+	context.lineTo(450, 200);
 	context.stroke();
 }
 
