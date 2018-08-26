@@ -9,57 +9,28 @@ window.onload = function() {
 
 	/*
 	 
-	lineCap = butt|round|square	
-	lineJoin = miter|bevel|round	
-	shadowColor = color of shadow
-	shadowOffsetX = horizontal distance of the shadow from shape
-	shadowOffsetY = vertical distance of the shadow from shape
-	shadowBlur = amount of blur on shadow
-	
+	arc(x, y, radius, startAngle, endAngle, counterClockWise)	
+
 	 */
 
-	context.beginPath();
-	context.strokeStyle = 'red';
-	context.lineWidth = 15;
-	context.lineCap = 'butt';
-	context.lineJoin = 'miter';
-	context.shadowColor = 'blue';
-	context.shadowOffsetX = 10;
-	context.shadowOffsetY = 10;
-	context.shadowBlur = 2;
-
-	context.moveTo(60, 80);
-	context.lineTo(160, 80);
-	context.lineTo(80, 180);
-	context.lineTo(180, 180);
-	context.stroke();
+	const radian = Math.PI / 180;
 
 	context.beginPath();
 	context.strokeStyle = 'blue';
-	context.lineWidth = 15;
-	context.lineCap = 'round';
-	context.lineJoin = 'round';
-	context.shadowColor = 'pink';
-	context.shadowOffsetX = 10;
-	context.shadowOffsetY = 10;
-	context.moveTo(340, 80);
-	context.lineTo(240, 80);
-	context.lineTo(340, 180);
-	context.lineTo(240, 180);
+	context.lineWidth = 10;
+	context.arc(100, 100, 50, 0, 180 * radian, false);
+	context.stroke();
+
+	context.beginPath();
+	context.strokeStyle = 'red';
+	context.lineWidth = 10;
+	context.arc(300, 200, 50, 45 * radian, 130 * radian, false);
 	context.stroke();
 
 	context.beginPath();
 	context.strokeStyle = 'green';
-	context.lineWidth = 15;
-	context.lineCap = 'square';
-	context.lineJoin = 'bevel';
-	context.shadowColor = 'red';
-	context.shadowOffsetX = 10;
-	context.shadowOffsetY = 10;
-	context.moveTo(420, 80);
-	context.lineTo(520, 80);
-	context.lineTo(430, 180);
-	context.lineTo(530, 180);
+	context.lineWidth = 10;
+	context.arc(300, 100, 50, 45 * radian, 130 * radian, true);
 	context.stroke();
 }
 
