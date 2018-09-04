@@ -2,8 +2,8 @@
 window.onload = function() {
 	let canvas = document.getElementById('ctx');
 	let context = canvas.getContext('2d');
-	const WIDTH = 1000;
-	const HEIGHT = 800;
+	const WIDTH = 875;
+	const HEIGHT = 650;
 	const radian = Math.PI/180;
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
@@ -16,10 +16,11 @@ window.onload = function() {
 		//draw quadratic curve	
 		context.beginPath();
 		context.strokeStyle = color;
+		context.fillStyle = 'red';
 		context.lineWidth = width;
 		context.moveTo(startX, startY);
 		context.quadraticCurveTo(controlX, controlY, endX, endY);
-		context.stroke();
+		context.fill();
 
 		if(drawControls) {
 			// draw the control points as a circle
@@ -48,10 +49,12 @@ window.onload = function() {
 		//draw bezier curve
 		context.beginPath();
 		context.strokeStyle = color;
+		context.fillStyle = 'red'
 		context.lineWidth = width;
 		context.moveTo(startX, startY);
 		context.bezierCurveTo(controlX1, controlY1, controlX2, controlY2, endX, endY);
-		context.stroke();
+		context.fill();
+		//	context.stroke();
 
 		if(drawControls) {
 			// draw the first control point as a circle
@@ -83,12 +86,15 @@ window.onload = function() {
 					400, 10, 
 					190, 10,
 					190, 180,
-					'red', 2, 1);
+					'red', 2, 0);
+	//context.fillStyle = 'red'
+	context.fill();
 
 	drawQuadraticCurve(190, 180,
 						190, 380,
 						430, 520,
-						'red', 2, 1);
+						'red', 2, 0);
+	context.fill();
 
 	//right side
 	drawBezierCurve(430, 130, 
@@ -96,11 +102,24 @@ window.onload = function() {
 					670, 10,
 					670, 180,
 					'red', 2, 0);
+	context.fill();
 
 	drawQuadraticCurve(670, 180,
 						670, 380,
 						430, 520,
 						'red', 2, 0);
+
+	context.fill();
+
+	context.beginPath();
+	context.lineWidth=1;
+	context.strokeStyle = 'green';
+	context.moveTo(430, 130);
+	context.lineTo(190, 180);
+	context.lineTo(430, 520);
+	context.lineTo(670, 180);
+	context.moveTo(430, 130);
+	context.fill();
 
 }
 
