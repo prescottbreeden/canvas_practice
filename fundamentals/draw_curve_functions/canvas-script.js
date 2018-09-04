@@ -3,7 +3,7 @@ window.onload = function() {
 	let canvas = document.getElementById('ctx');
 	let context = canvas.getContext('2d');
 	const WIDTH = 1000;
-	const HEIGHT = 800;
+	const HEIGHT = 500;
 	const radian = Math.PI/180;
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
@@ -77,30 +77,18 @@ window.onload = function() {
 			context.stroke();
 		}
 	}
-	
-	//left side
-	drawBezierCurve(430, 130, 
-					400, 10, 
-					190, 10,
-					190, 180,
-					'red', 2, 1);
 
-	drawQuadraticCurve(190, 180,
-						190, 380,
-						430, 520,
-						'red', 2, 1);
+	drawBezierCurve(200, 250, 
+					100, 100, 
+					500, 100, 
+					400, 250, 
+					'blue', 10, 1);
 
-	//right side
-	drawBezierCurve(430, 130, 
-					470, 10, 
-					670, 10,
-					670, 180,
-					'red', 2, 0);
+	drawQuadraticCurve(500, 250, 
+						600, 50, 
+						700, 250, 
+						'blue', 10, 1);
 
-	drawQuadraticCurve(670, 180,
-						670, 380,
-						430, 520,
-						'red', 2, 0);
 
 }
 
