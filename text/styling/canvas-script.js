@@ -9,11 +9,19 @@ window.onload = function() {
 
 	// context.fillText(text, xCoord, yCoord, maxWidth);
 	// context.strokeText(text, xCoord, yCoord, maxWidth);
-	
 	let text = "Rubber Baby Buggy Bumpers";
+
 	context.font = 'italic 800 45px Verdana';
 	context.fillText(text, 40, 100);
-	context.strokeText(text, 80, 200);
+
+	context.font = 'italic 800 45px Verdana';
+	context.strokeText(text, 40, 200);
+
+	context.font = 'italic 700 45px fantasy';
+	context.strokeText(text, 40, 300);
+
+	context.font = 'normal lighter 45px monospace';
+	context.fillText(text, 40, 400);
 
 	/*
 	 context.font = "font-style font-weight font-size font-family";
