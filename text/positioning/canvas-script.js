@@ -19,7 +19,7 @@ window.onload = function() {
 	*/
 
 	// default styling
-	context.font = 'italic 400 20px monospace';
+	context.font = 'normal 400 20px monospace';
 
 	// ------------------------------------- //
 	//			VERTICAL ALIGNMENTS			 //
@@ -53,28 +53,28 @@ window.onload = function() {
 
 	// horizontal reference line
 	context.strokeStyle = 'red';
-	context.moveTo(20, HEIGHT/2);
-	context.lineTo(WIDTH-20, HEIGHT/2);
+	context.moveTo(20, HEIGHT/1.5);
+	context.lineTo(WIDTH-20, HEIGHT/1.5);
 	context.stroke();
 
 	context.textAlign = 'left';
 
 	context.textBaseline = 'alphabetic'; // used in latin-based languages
-	context.fillText('alphabetic', 20, HEIGHT/2);
+	context.fillText('alphabetic', 20, HEIGHT/1.5);
 
-	context.textBaseline = 'top';
-	context.fillText('top', 200, HEIGHT/2);
-
-	context.textBaseline = 'hanging';
-	context.fillText('hanging', 300, HEIGHT/2);
-
-	context.textBaseline = 'middle';
-	context.fillText('middle', 400, HEIGHT/2);
-
-	context.textBaseline = 'ideographic'; // ideographic used in character-based languages
-	context.fillText('ideographic', 500, HEIGHT/2);
+	context.textBaseline = 'ideographic';
+	context.fillText('ideographic', 170, HEIGHT/1.5);
 
 	context.textBaseline = 'bottom';
-	context.fillText('bottom', 700, HEIGHT/2);
+	context.fillText('bottom', 350, HEIGHT/1.5);
+
+	context.textBaseline = 'middle';
+	context.fillText('middle', 475, HEIGHT/1.5);
+
+	context.textBaseline = 'top'; // ideographic used in character-based languages
+	context.fillText('top', 600, HEIGHT/1.5);
+
+	context.textBaseline = 'hanging';
+	context.fillText('hanging', 700, HEIGHT/1.5);
 }
 
