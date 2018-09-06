@@ -14,6 +14,7 @@
 'use strict';
 
 class BarChart {
+
 	constructor(targetId, width, height, data) {
 		const _id = targetId;
 		const _width = width;
@@ -22,6 +23,7 @@ class BarChart {
 		const _labels = [];
 		const _values = [];
 
+		// this.drawVerticalAxis = this.drawVerticalAxis.bind(this);
 		this.getId = () => {return _id;}
 		this.getWidth = () => {return _width;}
 		this.getHeight = () => {return _height;}
@@ -33,8 +35,10 @@ class BarChart {
 		this.createCanvas();	
 		this.importData();
 		this.prepareData();
+		this.drawChart();
+		
+		console.log(this);
 	}
-
 
 
 	setChartParameters() {
@@ -43,7 +47,7 @@ class BarChart {
 		this.verticalMargin = (this.getHeight() * this.axisRatio) / 100;
 		this.horizontalMargin = (this.getWidth() * this.axisRatio) / 100;
 		this.axisColor = '#b1b1b1';
-		this.axisWidth = 0.75;
+		this.axisWidth = 1.75;
 
 		// Label Specifications
 		this.fontRatio = 3; // in terms of percentage
@@ -60,11 +64,12 @@ class BarChart {
 
 	}
 
+
 	createCanvas() {
 		let canvas = document.createElement('canvas');
 		canvas.id = this.getId() + '-' + Math.random();
-		canvas.width = this.width;
-		canvas.height = this.height;
+		canvas.width = this.getWidth();
+		canvas.height = this.getHeight();
 
 		// append canvas to target container
 		document.getElementById(this.getId()).innerHTML = ''; // clean container
@@ -76,6 +81,7 @@ class BarChart {
 
 	}
 
+
 	importData() {
 		// Data sets
 		this.getData().forEach((item) => { 
@@ -83,6 +89,7 @@ class BarChart {
 			this.getValues().push(item.value);
 		});
 	}
+
 
 	prepareData() {
 		console.log('inside prep data');
@@ -100,6 +107,34 @@ class BarChart {
 		this.horizontalLabelFrequency = this.horizontalAxisWidth / this.itemsNum;
 
 	}
+
+
+	drawChart() {
+		// vertical axis
+		this.drawVerticalAxis = () => {
+			this.context.beginPath();
+			this.context.strokeStyle = this.axisColor;
+			this.context.lineWidth = this.axisWidth;
+			this.context.moveTo(this.horizontalMargin, this.verticalMargin);
+			this.context.lineTo(this.horizontalMargin, this.getHeight() - this.verticalMargin);
+			this.context.stroke();
+		}
+		
+		// horizontal axis
+		this.drawHorizontalAxis = () => {
+			this.context.beginPath();
+			this.context.strokeStyle = this.axisColor;
+			this.context.lineWidth = this.axisWidth;
+			this.context.moveTo(this.horizontalMargin, this.getHeight() - this.verticalMargin);
+			this.context.lineTo(this.getWidth() - this.horizontalMargin, this.getHeight() - this.verticalMargin);
+			this.context.stroke();
+		}
+
+		this.drawVerticalAxis();
+		this.drawHorizontalAxis();
+
+	}
+
 
 }
 
