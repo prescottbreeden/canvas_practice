@@ -16,20 +16,19 @@
 class BarChart {
 
 	constructor(targetId, width, height, data) {
-		const _id = targetId;
-		const _width = width;
-		const _height = height;
-		const _data = data;
-		const _labels = [];
-		const _values = [];
+		const _id		= targetId;
+		const _width	= width;
+		const _height	= height;
+		const _data		= data;
+		const _labels	= [];
+		const _values	= [];
 
-		// this.drawVerticalAxis = this.drawVerticalAxis.bind(this);
-		this.getId = () => {return _id;}
-		this.getWidth = () => {return _width;}
-		this.getHeight = () => {return _height;}
-		this.getData = () => {return _data;}
-		this.getLabels = () => {return _labels;}
-		this.getValues = () => {return _values;}
+		this.getId		= () => _id;
+		this.getWidth	= () => _width;
+		this.getHeight	= () => _height;
+		this.getData	= () => _data;
+		this.getLabels	= () => _labels;
+		this.getValues	= () => _values;
 
 		this.setChartParameters();
 		this.createCanvas();	
@@ -324,4 +323,3 @@ class BarChart {
 
 	}
 }
-
