@@ -108,6 +108,9 @@ class BarChart {
 
 	}
 
+	// ------------------------ //
+	// ------ DRAW CHART ------ //
+	// ------------------------ //
 
 	drawChart() {
 		// vertical axis
@@ -130,8 +133,101 @@ class BarChart {
 			this.context.stroke();
 		}
 
+		// vertical labels
+		this.drawVerticalLabels = () => {
+			// define font
+			let labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize} ${this.fontFamily}`;
+			this.context.font = labelFont;
+			this.context.textAlign = 'right';
+			this.context.fillStyle = this.fontColor;
+
+			// scale axis values
+			let scaledVerticalLabelFrequency = (this.verticalAxisWidth / this.verticalUpperBound) * this.verticalLabelFrequency;
+			
+			// draw labels
+			for(let i = 0; i <= this.itemsNum; i++) {
+				let labelText = this.verticalUpperBound - i * this.verticalLabelFrequency;
+				let verticalLabelX = this.horizontalMargin - this.horizontalMargin / this.axisRatio;
+				let verticalLabelY = this.verticalMargin + i * scaledVerticalLabelFrequency;
+
+				this.context.fillText(labelText, verticalLabelX, verticalLabelY);
+			}
+		}
+
+		// horizontal labels
+		this.drawHorizontalLabels = () => {
+			// define font
+			let labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize} ${this.fontFamily}`;
+			this.context.font = labelFont;
+			this.context.textAlign = 'center';
+			this.context.textBaseline = 'top';
+			this.context.fillStyle = this.fontColor;
+
+			// draw labels
+			for(let i = 0; i < this.itemsNum; i++) {
+				let horizontalLabelX = this.horizontalMargin + i * this.horizontalLabelFrequency + this.horizontalLabelFrequency/2;
+				let horizontalLabelY = this.getHeight() - this.verticalMargin  + this.verticalMargin / this.axisRatio;
+				let labels = this.getLabels();
+				this.context.fillText(labels[i], horizontalLabelX, horizontalLabelY);
+			}
+		}
+
+
+		this.drawHorizontalGuides = () => {
+				
+			// define style
+			this.context.strokeStyle = this.guidelineColor;
+			this.context.lineWidth = this.guidelineWidth;
+
+			// scale axis values
+			let scaledVerticalLabelFrequency = (this.verticalAxisWidth / this.verticalUpperBound) * this.verticalLabelFrequency;
+			
+			// draw guides
+			for(let i = 0; i <= this.itemsNum; i++) {
+				let horizontalGuideStartX = this.horizontalMargin;
+				let horizontalGuideStartY = this.verticalMargin + i * scaledVerticalLabelFrequency;
+				let horizontalGuideEndX = this.horizontalMargin + this.horizontalAxisWidth;
+				let horizontalGuideEndY = this.verticalMargin + i * scaledVerticalLabelFrequency;
+
+				this.context.beginPath();
+				this.context.moveTo(horizontalGuideStartX, horizontalGuideStartY);
+				this.context.lineTo(horizontalGuideEndX, horizontalGuideEndY);
+				this.context.stroke();
+			}
+
+
+		}
+
+		this.drawVerticalGuides = () => {
+			// define style
+			let labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize} ${this.fontFamily}`;
+			this.context.font = labelFont;
+			this.context.textAlign = 'center';
+			this.context.textBaseline = 'top';
+			this.context.fillStyle = this.fontColor;
+			
+			// draw guides
+			for(let i = 0; i <= this.itemsNum; i++) {
+				let verticalGuideStartX = this.horizontalMargin + i * this.horizontalLabelFrequency;
+				let verticalGuideStartY = this.getHeight() - this.verticalMargin;
+				let verticalGuideEndX = this.horizontalMargin + i * this.horizontalLabelFrequency;
+				let verticalGuideEndY = this.verticalMargin;
+
+				this.context.beginPath();
+				this.context.moveTo(verticalGuideStartX, verticalGuideStartY);
+				this.context.lineTo(verticalGuideEndX, verticalGuideEndY);
+				this.context.stroke();
+			}
+		}
+
+
+		// Draw Chart
 		this.drawVerticalAxis();
 		this.drawHorizontalAxis();
+		this.drawVerticalLabels();
+		this.drawHorizontalLabels();
+		this.drawHorizontalGuides();
+		this.drawVerticalGuides();
 
 	}
 
