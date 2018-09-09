@@ -123,6 +123,7 @@ class BarChart {
 			this.context.stroke();
 		}
 		
+
 		// horizontal axis
 		this.drawHorizontalAxis = () => {
 			this.context.beginPath();
@@ -132,6 +133,7 @@ class BarChart {
 			this.context.lineTo(this.getWidth() - this.horizontalMargin, this.getHeight() - this.verticalMargin);
 			this.context.stroke();
 		}
+
 
 		// vertical labels
 		this.drawVerticalLabels = () => {
@@ -153,6 +155,7 @@ class BarChart {
 				this.context.fillText(labelText, verticalLabelX, verticalLabelY);
 			}
 		}
+
 
 		// horizontal labels
 		this.drawHorizontalLabels = () => {
@@ -198,6 +201,7 @@ class BarChart {
 
 		}
 
+
 		this.drawVerticalGuides = () => {
 			// define style
 			let labelFont = `${this.fontStyle} ${this.fontWeight} ${this.verticalFontSize} ${this.fontFamily}`;
@@ -219,6 +223,41 @@ class BarChart {
 				this.context.stroke();
 			}
 		}
+	
+
+		// draw bars
+		this.drawBars = () => {
+			let values = this.getValues();
+			let color = this.createRandomColor();
+
+			for(let i = 0; i < this.itemsNum; i++) {
+				let fillOpacity = '0.3';
+				let fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${fillOpacity})`;
+				let borderColor = `rgba(${color.r}, ${color.g}, ${color.b})`;
+
+				console.log(fillColor);
+
+				this.context.beginPath();
+				let barX = this.horizontalMargin + i * this.horizontalLabelFrequency + this.horizontalLabelFrequency / this.axisRatio;
+				let barY = this.getHeight() - this.verticalMargin;
+				let barWidth = this.horizontalLabelFrequency -2 * this.horizontalLabelFrequency / this.axisRatio;
+				let barHeight = -1 * this.verticalAxisWidth * values[i] / this.maxValue;
+
+				this.context.fillStyle = fillColor;
+				this.context.rect(barX, barY, barWidth, barHeight);
+				this.context.stroke();
+				this.context.fill();
+			}
+		}
+
+
+		// pick random color for chart bars
+		this.createRandomColor = () => {
+			let red = Math.floor(Math.random() * 255);
+			let green = Math.floor(Math.random() * 255);
+			let blue = Math.floor(Math.random() * 255);
+			return {r: red, g: green, b: blue};
+		}
 
 
 		// Draw Chart
@@ -228,9 +267,8 @@ class BarChart {
 		this.drawHorizontalLabels();
 		this.drawHorizontalGuides();
 		this.drawVerticalGuides();
+		this.drawBars();
 
 	}
-
-
 }
 
