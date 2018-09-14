@@ -4,36 +4,28 @@ window.onload = function() {
 	const context = canvas.getContext('2d');
 	const WIDTH = window.innerWidth-20;
 	const HEIGHT = window.innerHeight-20;
-	const g = 0 // gravitational constant
-	const DAMPENING = 0.5;
+	const g = 0.2; // gravitational constant
+	const DAMPENING = 1; // friction coeff
 	const REVERSE_DIRECTION = -1;
 	const radian = Math.PI/180;
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
 
 
-	const numOfBalls = 100;
+	const numOfBalls = 2;
 	let balls = [];
 	let colors = ['red', 'green', 'blue', 'purple'];
 
 	for(let i = 0; i < numOfBalls; i++) {
-		const radius = getRandomInt(5,30);
+		const radius = getRandomInt(5,50);
 		const color = colors[getRandomInt(0, colors.length)];
 		const ball = new Ball(radius, color);
 		ball.context = context;
-		ball.x = getRandomInt(ball.r, (WIDTH-ball.r)/2);
-		ball.y = getRandomInt(ball.r, (HEIGHT-ball.r)/2);
+		ball.x = getRandomInt(ball.r, WIDTH-ball.r);
+		ball.y = getRandomInt(ball.r, HEIGHT-ball.r);
 		ball.m = ball.r*3;
-		ball.vy = getRandomInt(0, 10);
-		ball.vx = getRandomInt(0, 10);
-		let coinFlip = getRandomInt(0, 2);
-		if(coinFlip) {
-			ball.vy *= -1;
-		}
-		coinFlip = getRandomInt(0, 2);
-		if(coinFlip) {
-			ball.vx *= -1;
-		}
+		ball.vy = getRandomInt(0, 5);
+		ball.vx = getRandomInt(0, 5);
 		ball.draw();
 		balls.push(ball);
 	}
@@ -51,10 +43,19 @@ window.onload = function() {
 			updatePosition(balls[i]);
 		}
 		checkBallCollisions();
+		checkMouseCollision();
 
 		// animate
 		window.requestAnimationFrame(animationLoop);
 	}
+
+	let mouseLocation = {};
+
+	canvas.addEventListener('mousemove', function(e) {
+		let boundings = canvas.getBoundingClientRect();
+		mouseLocation.x = e.clientX - boundings.left;
+		mouseLocation.y = e.clientY - boundings.top;
+	})
 
 	function updatePosition(ball) {
 		if(ball.vx > 0) {
@@ -91,43 +92,26 @@ window.onload = function() {
 		ball.draw();
 	}
 
-	function isCollided(ball1, ball2) {
-		return	(Math.sqrt((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2) <= ball1.r + ball2.r);
+	function checkMouseCollision() {
+		for(let i = 0; i < numOfBalls; i++) {
+			const ball = balls[i]
+			if(isCollided(mouseLocation, ball)) {
+				ball.vy *= -1;
+				ball.vx *= -1;
+			}
+		}
+	}
+
+	function isCollided(mouse, ball) {
+		return	(Math.sqrt((mouse.x - ball.x)**2 + (mouse.y - ball.y)**2) <= ball.r);
 	}
 
 	function checkBallCollisions() {
 		for(let i = 0; i < numOfBalls-1; i++) {
-			const ball1 = balls[i];
+			let ball1 = balls[i];
 			for(let j = i+1; j < numOfBalls; j++) {
-				const ball2 = balls[j];
+				let ball2 = balls[j];
 				if(isCollided(ball1, ball2)) {
-
-					// redraw balls to point where radii touch but don't overlap
-					const totalDistance = Math.sqrt((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2);
-					const A = totalDistance - ball1.r;
-					const B = totalDistance - ball2.r;
-					const overlap = totalDistance - A - B;
-					const overlapRatio = overlap/totalDistance;
-
-					// adjust the position of the smaller collided object
-					let adjustPosition;
-					if(ball1.r < ball2.r) {
-						adjustPosition = ball1.r * overlapRatio;	
-					} else {
-						adjustPosition = ball2.r * overlapRatio;		
-					}
-					if(ball1.x > ball2.x) {
-						ball1.x += adjustPosition;
-					} else {
-						ball2.x += adjustPosition;
-					}
-					if(ball1.y > ball2.y) {
-						ball1.y += adjustPosition;
-					} else {
-						ball2.y += adjustPosition;
-					}
-
-					// adjust velocities while conserving momentum
 					let vx1 = ((ball1.m - ball2.m) * ball1.vx) / (ball1.m + ball2.m); 
 							vx1 += (2*ball2.m * ball2.vx) / (ball1.m + ball2.m);
 
@@ -153,10 +137,6 @@ window.onload = function() {
 			}
 
 		}
-	}
-
-	function distanceNextFrame(a, b) {
-    return Math.sqrt((a.x + a.dx - b.x - b.dx)**2 + (a.y + a.dy - b.y - b.dy)**2) - a.radius - b.radius;
 	}
 
 	function getRandomInt(min, max) {
