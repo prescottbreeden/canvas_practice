@@ -10,13 +10,18 @@ class FlappyMonster {
 
 	constructor(canvas) {
 		this._currentState = INITIAL;
+		this._velocity = 5;
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
 		this.counter = 0; // temp debugging variable
 
-		// get-set
+		// get-set State
 		this.getState = () => this._currentState;
 		this.setState = (newState) => this._currentState = newState;
+
+		// get-set Velocity
+		this.getVelocity = () => this._velocity;
+		this.setVelocity = (newVelocity) => this._velocity = newVelocity;
 
 		// bind event listeners
 		this.bindEvents();
@@ -67,11 +72,13 @@ class FlappyMonster {
 
 
 	drawGamePlayingScreen() {
-		//background
-		this.context.fillStyle = 'black';
-		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+		// clear canvas
+		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		// text
+		//background
+		this.animateBackground();
+
+		// temp text
 		this.context.fillStyle = 'white';
 		this.context.font = '36px Arial';
 		this.context.fillText('Game Playing', this.canvas.width/2-100, this.canvas.height/2);
@@ -123,10 +130,29 @@ class FlappyMonster {
 		})
 	}
 
-	createObjects() {
 
+	createObjects() {
+		this.background1 = new GameBackground('public/images/back.png', this.canvas);
+		this.background2 = new GameBackground('public/images/back.png', this.canvas);
+		this.background2.x = this.canvas.width;
 	}
 
+
+	animateBackground() {
+		//background 1
+		this.background1.draw();
+		if(Math.abs(this.background1.x) > this.canvas.width) {
+			this.background1.x = this.canvas.width - this.getVelocity();
+		}
+		this.background1.x -= this.getVelocity();
+
+		// background 2
+		this.background2.draw();
+		if(Math.abs(this.background2.x) > this.canvas.width) {
+			this.background2.x = this.canvas.width - this.getVelocity();
+		}
+		this.background2.x -= this.getVelocity();
+	}
 
 
 }
