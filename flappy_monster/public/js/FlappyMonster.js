@@ -2,33 +2,57 @@ const INITIAL = 1;
 const GAME_PLAYING = 2;
 const GAME_OVER = 3;
 
+const KEY_CODE = {
+	r: 82
+}
+
 class FlappyMonster {
+
 	constructor(canvas) {
+		this._currentState = INITIAL;
 		this.canvas = canvas;
 		this.context = this.canvas.getContext('2d');
-		this.currentState = INITIAL;
+		this.counter = 0; // temp debugging variable
+
+		// get-set
+		this.getState = () => this._currentState;
+		this.setState = (newState) => this._currentState = newState;
+
+		// bind event listeners
+		this.bindEvents();
+
+		// create Game objects
+		this.createObjects();
+
 	}
 
+
+	start() {
+		window.requestAnimationFrame(() => {
+			this.runGameLoop();
+		});
+	}
+
+
 	runGameLoop() {
-		console.log('floppy');
-		switch (this.currentState) {
+		switch (this.getState()) {
 			case INITIAL:
-				console.log('initial');
 				this.drawInitialScreen();
 				break;
 
 			case GAME_PLAYING:
-				console.log('playing');
 				this.drawGamePlayingScreen();
 				break;
 
-
 			case GAME_OVER:
-				console.log('game over');
 				this.drawGameOverScreen();
 				break;
 		}
+		window.requestAnimationFrame(() => {
+			this.runGameLoop();
+		});
 	}
+
 
 	drawInitialScreen() {
 		//background
@@ -38,8 +62,9 @@ class FlappyMonster {
 		// text
 		this.context.fillStyle = 'white';
 		this.context.font = '36px Arial';
-		this.context.fillText('INITIAL', this.canvas.width/2, this.canvas.height/2);
+		this.context.fillText('Click to Start', this.canvas.width/2-100, this.canvas.height/2);
 	}
+
 
 	drawGamePlayingScreen() {
 		//background
@@ -49,8 +74,9 @@ class FlappyMonster {
 		// text
 		this.context.fillStyle = 'white';
 		this.context.font = '36px Arial';
-		this.context.fillText('Game Playing', this.canvas.width/2, this.canvas.height/2);
+		this.context.fillText('Game Playing', this.canvas.width/2-100, this.canvas.height/2);
 	}
+
 
 	drawGameOverScreen() {
 		//background
@@ -60,11 +86,48 @@ class FlappyMonster {
 		// text
 		this.context.fillStyle = 'white';
 		this.context.font = '36px Arial';
-		this.context.fillText('Game Over', this.canvas.width/2, this.canvas.height/2);
+		this.context.fillText('Game Over', this.canvas.width/2-100, this.canvas.height/2);
+		this.context.font = '24px Arial';
+		this.context.fillText('Press R to Restart', this.canvas.width/2-100, this.canvas.height/2 + 50);
 	}
+
+
+	bindEvents() {
+		// mouse listeners
+		let game = this;
+		game.canvas.addEventListener('click', function(e) {
+			switch (game.getState()) {
+				case INITIAL:
+					game.setState(GAME_PLAYING);
+					break;
+				case GAME_PLAYING:
+					console.log('flap flap flap flap');
+					game.counter++;
+					if(game.counter === 5) {
+						game.setState(GAME_OVER);
+					}
+					break;
+			}
+		})
+
+		// key listeners
+		window.addEventListener('keyup', function(e) {
+			switch(game.getState()) {
+				case GAME_OVER:
+					if(e.keyCode === KEY_CODE.r) {
+						game.setState(INITIAL);
+						game.counter = 0;
+					}
+					break;
+			}
+		})
+	}
+
+	createObjects() {
+
+	}
+
+
+
 }
 
-
-//initial screen
-//game playing screen
-//game over screen
