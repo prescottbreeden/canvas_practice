@@ -1,17 +1,19 @@
 window.onload = function() {
-	// global variables
+	// setup canvas
 	const canvas = document.getElementById('ctx');
 	const context = canvas.getContext('2d');
 	const WIDTH = window.innerWidth-20;
 	const HEIGHT = window.innerHeight-20;
-	const g = 0 // gravitational constant
-	const DAMPENING = 0.5;
-	const REVERSE_DIRECTION = -1;
-	const radian = Math.PI/180;
 	canvas.width = WIDTH;
 	canvas.height = HEIGHT;
 
+	// physics global variables
+	const g = 0 // gravitational constant
+	const DAMPENING = 0.5; // energy loss on collisions
+	const REVERSE_DIRECTION = -1;
+	const radian = Math.PI/180;
 
+	// draw balls
 	const numOfBalls = 100;
 	let balls = [];
 	let colors = ['red', 'green', 'blue', 'purple'];
@@ -40,11 +42,14 @@ window.onload = function() {
 
 	window.requestAnimationFrame(animationLoop);
 
+	// ===================== //
+	// ----- Functions ----- //
+	// ===================== //
+
+
 	function animationLoop() {
 		//clear canvas
 		context.clearRect(0, 0, WIDTH, HEIGHT);
-
-		// detect collision
 
 		// update
 		for(let i = 0; i < balls.length; i++) {
@@ -55,6 +60,7 @@ window.onload = function() {
 		// animate
 		window.requestAnimationFrame(animationLoop);
 	}
+
 
 	function updatePosition(ball) {
 		if(ball.vx > 0) {
@@ -91,9 +97,16 @@ window.onload = function() {
 		ball.draw();
 	}
 
-	function isCollided(ball1, ball2) {
-		return	(Math.sqrt((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2) <= ball1.r + ball2.r);
+
+	function getDistance(ball1, ball2) {
+		return (Math.sqrt((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2));
 	}
+
+
+	function isCollided(ball1, ball2) {
+		return getDistance(ball1, ball2) <= ball1.r + ball2.r;
+	}
+
 
 	function checkBallCollisions() {
 		for(let i = 0; i < numOfBalls-1; i++) {
@@ -103,7 +116,7 @@ window.onload = function() {
 				if(isCollided(ball1, ball2)) {
 
 					// redraw balls to point where radii touch but don't overlap
-					const totalDistance = Math.sqrt((ball1.x - ball2.x)**2 + (ball1.y - ball2.y)**2);
+					const totalDistance = getDistance(ball1, ball2);
 					const A = totalDistance - ball1.r;
 					const B = totalDistance - ball2.r;
 					const overlap = totalDistance - A - B;
@@ -128,22 +141,23 @@ window.onload = function() {
 					}
 
 					// adjust velocities while conserving momentum
-					let vx1 = ((ball1.m - ball2.m) * ball1.vx) / (ball1.m + ball2.m); 
-							vx1 += (2*ball2.m * ball2.vx) / (ball1.m + ball2.m);
+					let totalMass = ball1.m + ball2.m;
+					let vx1 = ((ball1.m-ball2.m)/totalMass)*ball1.vx;
+							vx1 += (2*ball2.m/totalMass)*ball2.vx;
 
-					let vx2 = ((ball2.m - ball1.m) * ball2.vx) / (ball2.m + ball1.m); 
-							vx2 += (2*ball1.m * ball1.vx) / (ball1.m + ball2.m);
+					let vx2 = ((ball2.m-ball1.m)/totalMass)*ball2.vx; 
+							vx2 += (2*ball1.m/totalMass)*ball1.vx;
 
 					ball1.vx *= DAMPENING;
 					ball1.vx = vx1;
 					ball2.vx *= DAMPENING;
 					ball2.vx = vx2;
 
-					let vy1 = ((ball1.m - ball2.m) * ball1.vy) / (ball1.m + ball2.m); 
-							vy1 += (2*ball2.m * ball2.vy) / (ball1.m + ball2.m);
+					let vy1 = ((ball1.m-ball2.m)/totalMass)*ball1.vy;
+							vy1 += (2*ball2.m/totalMass)*ball2.vy;
 
-					let vy2 = ((ball2.m - ball1.m) * ball2.vy) / (ball2.m + ball1.m); 
-							vy2 += (2*ball1.m * ball1.vy) / (ball1.m + ball2.m);
+					let vy2 = ((ball2.m-ball1.m)/totalMass)*ball2.vy; 
+							vy2 += (2*ball1.m/totalMass)*ball1.vy;
 
 					ball1.vy *= DAMPENING;
 					ball1.vy = vy1;
@@ -155,9 +169,6 @@ window.onload = function() {
 		}
 	}
 
-	function distanceNextFrame(a, b) {
-    return Math.sqrt((a.x + a.dx - b.x - b.dx)**2 + (a.y + a.dy - b.y - b.dy)**2) - a.radius - b.radius;
-	}
 
 	function getRandomInt(min, max) {
 		min = Math.ceil(min);
