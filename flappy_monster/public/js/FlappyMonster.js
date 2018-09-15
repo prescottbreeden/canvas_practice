@@ -116,7 +116,7 @@ class FlappyMonster {
 		// text
 		this.context.fillStyle = 'black';
 		this.context.font = '36px Arial';
-		this.context.fillText('You Suck', this.canvas.width/2-100, this.canvas.height/2);
+		this.context.fillText('Doink!', this.canvas.width/2-100, this.canvas.height/2);
 		this.context.font = '24px Arial';
 		this.context.fillText('Press R to Restart', this.canvas.width/2-100, this.canvas.height/2 + 50);
 	}

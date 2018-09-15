@@ -5,7 +5,7 @@ class WallFactory {
 		this.context = this.canvas.getContext('2d');
 
 		// specs
-		this.gap = 200;
+		this.gap = 220;
 		this.maxGap = 300;
 		this.freq = 1500;
 		this.walls = [];
