@@ -81,13 +81,12 @@ class FlappyMonster {
 		// draw score
 		this.gameScore.draw();
 
-		// wall factory
+		// draw walls
 		this.drawWalls();
 
-		// temp text
-		this.context.fillStyle = 'white';
-		this.context.font = '36px Arial';
-		this.context.fillText('Game Playing', this.canvas.width/2-100, this.canvas.height/2);
+		// draw monster
+		this.monster.draw();
+
 	}
 
 
@@ -140,6 +139,9 @@ class FlappyMonster {
 		// wall factory
 		this.wallFactory = new WallFactory(this.canvas);
 		this.wallFactory.generateWalls();
+
+		// monster
+		this.monster = new Monster('public/images/monster.png', this.canvas);
 	}
 
 
@@ -165,16 +167,18 @@ class FlappyMonster {
 		// mouse listeners
 		let game = this;
 		game.canvas.addEventListener('click', function(e) {
+
 			switch (game.getState()) {
 				case INITIAL:
 					game.setState(GAME_PLAYING);
 					break;
+
 				case GAME_PLAYING:
 					console.log('flap flap flap flap');
-					game.counter++;
-					if(game.counter === 5) {
-						game.setState(GAME_OVER);
-					}
+					// game.monster.frame++;
+					// game.monster.frame %= 4;
+
+					game.monster.vy = -10;
 					break;
 			}
 		})
