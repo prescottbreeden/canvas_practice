@@ -35,9 +35,9 @@ class Monster {
 				this.vy = 0;
 			}
 
-			this.context.drawImage(this.img, this.frame*115, 0, 115, 95, this.x, this.y, this.w, this.h);
-			this.frame++;
-			this.frame %= 4;
+			this.context.drawImage(this.img, this.frame*115, 0, 112, 88, this.x, this.y, this.w, this.h);
+			// this.frame++;
+			// this.frame %= 4;
 		}
 	}
 }

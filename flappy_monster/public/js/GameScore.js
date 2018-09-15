@@ -12,13 +12,20 @@ class GameScore {
 
 	}
 
-	draw() {
+	draw(gameState, highscore=0) {
 		// calc score
-		let end = new Date();
-		this.score = parseFloat((end - this.start) / 1000).toFixed(1);
+		if(gameState != GAME_OVER) {
+			let end = new Date();
+			this.score = parseFloat((end - this.start) / 1000).toFixed(1);
 
-		// draw
-		this.context.font = '45px Verdana';
-		this.context.fillText(this.score, this.x, this.y);
+			// draw
+			this.context.font = '45px Verdana';
+			this.context.fillText(this.score, this.x, this.y);
+		} else {
+			// draw
+			this.context.font = '45px Verdana';
+			this.context.fillText(`${highscore}`, this.x, this.y);
+		}
 	}
+
 }
