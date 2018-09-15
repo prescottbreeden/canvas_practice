@@ -13,7 +13,6 @@ window.getRandomInt = (min, max) => {
 	return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
 window.getRandomRGBColor = () => {
 	const red = getRandomInt(0,257);
 	const green = getRandomInt(0,257);

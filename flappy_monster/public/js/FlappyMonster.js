@@ -75,8 +75,14 @@ class FlappyMonster {
 		// clear canvas
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		//background
+		// draw background
 		this.animateBackground();
+
+		// draw score
+		this.gameScore.draw();
+
+		// wall factory
+		this.drawWalls();
 
 		// temp text
 		this.context.fillStyle = 'white';
@@ -84,6 +90,26 @@ class FlappyMonster {
 		this.context.fillText('Game Playing', this.canvas.width/2-100, this.canvas.height/2);
 	}
 
+
+	drawWalls() {
+		const walls = this.wallFactory.walls;
+		for(let i = 0; i < walls.length; i++) {
+			walls[i].draw();
+			walls[i].x -= this.getVelocity();
+		}
+		this.removeExtraWalls();
+	}
+
+
+	removeExtraWalls() {
+		const walls = this.wallFactory.walls;
+		for(let i = 0; i < walls.length; i++) {
+			if(walls[i].x + walls[i].w < 0) {
+				walls.shift();
+			}
+		}
+
+	}
 
 	drawGameOverScreen() {
 		//background
@@ -97,6 +123,42 @@ class FlappyMonster {
 		this.context.font = '24px Arial';
 		this.context.fillText('Press R to Restart', this.canvas.width/2-100, this.canvas.height/2 + 50);
 	}
+
+
+
+	createObjects() {
+		// background
+		this.background1 = new GameBackground('public/images/back.png', this.canvas);
+		this.background2 = new GameBackground('public/images/back.png', this.canvas);
+		this.background2.x = this.canvas.width;
+
+		// score
+		this.gameScore = new GameScore(this.canvas);
+		this.gameScore.x = this.canvas.width -120;
+		this.gameScore.y = 80;
+
+		// wall factory
+		this.wallFactory = new WallFactory(this.canvas);
+		this.wallFactory.generateWalls();
+	}
+
+
+	animateBackground() {
+		//background 1
+		this.background1.draw();
+		if(Math.abs(this.background1.x) > this.canvas.width) {
+			this.background1.x = this.canvas.width - this.getVelocity();
+		}
+		this.background1.x -= this.getVelocity();
+
+		// background 2
+		this.background2.draw();
+		if(Math.abs(this.background2.x) > this.canvas.width) {
+			this.background2.x = this.canvas.width - this.getVelocity();
+		}
+		this.background2.x -= this.getVelocity();
+	}
+
 
 
 	bindEvents() {
@@ -129,31 +191,5 @@ class FlappyMonster {
 			}
 		})
 	}
-
-
-	createObjects() {
-		this.background1 = new GameBackground('public/images/back.png', this.canvas);
-		this.background2 = new GameBackground('public/images/back.png', this.canvas);
-		this.background2.x = this.canvas.width;
-	}
-
-
-	animateBackground() {
-		//background 1
-		this.background1.draw();
-		if(Math.abs(this.background1.x) > this.canvas.width) {
-			this.background1.x = this.canvas.width - this.getVelocity();
-		}
-		this.background1.x -= this.getVelocity();
-
-		// background 2
-		this.background2.draw();
-		if(Math.abs(this.background2.x) > this.canvas.width) {
-			this.background2.x = this.canvas.width - this.getVelocity();
-		}
-		this.background2.x -= this.getVelocity();
-	}
-
-
 }
 
