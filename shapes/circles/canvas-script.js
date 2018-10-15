@@ -16,5 +16,10 @@ window.onload = function() {
 	context.stroke();
 	context.fill();
 
+	context.beginPath();
+	context.strokStyle = 'purple';
+	context.lineWidth = 10;
+	context.arc(200, 200, 100, 0, 90* radian, false);
+	context.stroke();
 }
 
